@@ -1,0 +1,15 @@
+.container-profile {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.container-profile img {
+  width: 100px;
+}
+
+.container-profile div {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}

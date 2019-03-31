@@ -1,0 +1,71 @@
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Course Name</ion-card-title>
+      <ion-card-subtitle>Course code / MWF 9:00 - 10:00</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+  <ion-card>
+    <ion-item routerLink="/courses/1/activities/1/results" detail>
+      <ion-card-header>
+        <ion-card-title>Activity Name</ion-card-title>
+        <ion-card-subtitle>Criteria</ion-card-subtitle>
+        <ion-card-subtitle>Date Created</ion-card-subtitle>
+      </ion-card-header>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-item routerLink="/courses/1/activities/1/results" detail>
+      <ion-card-header>
+        <ion-card-title>Quiz 1</ion-card-title>
+        <ion-card-subtitle>Quiz</ion-card-subtitle>
+        <ion-card-subtitle>March 30, 2019</ion-card-subtitle>
+      </ion-card-header>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-item routerLink="/courses/1/activities/1/results" detail>
+      <ion-card-header>
+        <ion-card-title>Prelims</ion-card-title>
+        <ion-card-subtitle>Major Exam</ion-card-subtitle>
+        <ion-card-subtitle>April 1, 2019</ion-card-subtitle>
+      </ion-card-header>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-item routerLink="/courses/1/activities/1/results" detail>
+      <ion-card-header>
+        <ion-card-title>Assignment 4</ion-card-title>
+        <ion-card-subtitle>Assignment</ion-card-subtitle>
+        <ion-card-subtitle>March 29, 2019</ion-card-subtitle>
+      </ion-card-header>
+    </ion-item>
+  </ion-card>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-tab-bar slot="bottom">
+  <ion-tab-button routerLink="/courses/1/attendances">
+    <ion-icon name="calendar"></ion-icon>
+    <ion-label>Attendance</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink="/courses/1/students">
+    <ion-icon name="person"></ion-icon>
+    <ion-label>Students</ion-label>
+  </ion-tab-button>
+  
+  <ion-tab-button routerLink="/courses/1/activities">
+    <ion-icon name="clipboard"></ion-icon>
+    <ion-label>Activities</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button routerLink="/courses/1/grading">
+    <ion-icon name="calculator"></ion-icon>
+    <ion-label>Grading</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>

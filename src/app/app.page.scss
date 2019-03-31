@@ -1,0 +1,54 @@
+ion-toolbar {
+  height: 60px;
+  --color: white;
+  --background: #017136;
+}
+
+ion-router-outlet {
+  top: 70px;
+}
+
+ion-tab-button {
+  color: white;
+}
+
+ion-header {
+  opacity: 0;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease-in;
+  animation-fill-mode: forwards;
+  animation-duration: 0.6s;
+  animation-delay: 0.2s;
+}
+
+@keyframes fadeInOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+ion-list {
+  padding-top: 0px;
+}
+
+.sidebar-image_container {
+  padding: 20px 10px;
+  text-align: center;
+  background-color: #017136;
+}
+
+.sidebar-image_container ion-menu-toggle{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.sidebar-image_container ion-menu-toggle ion-icon{
+  height: 40px;
+  width: 40px;
+  color: #ddd;
+}

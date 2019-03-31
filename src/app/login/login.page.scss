@@ -1,0 +1,44 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.container > * {
+	max-width: 80%;
+}
+
+img {
+  width: 150px;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.container-sub {
+  width: 100%;
+}
+
+.container-sub > * {
+  margin-top: 10px;
+}
+
+.container-sub div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+}
+
+ion-input {
+  border-bottom: 2px solid #FF5A00;
+}
+
+ion-label {
+  text-align: center;
+  font-style: italic;
+  color: #999;
+}

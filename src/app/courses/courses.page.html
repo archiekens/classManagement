@@ -1,0 +1,39 @@
+<ion-content>
+	<ion-card>
+    <ion-item routerLink="/courses/1/attendances" detail>
+      <ion-card-header>
+        <ion-card-title>Course Name</ion-card-title>
+        <ion-card-subtitle>Course code / MWF 9:00 - 10:00</ion-card-subtitle>
+      </ion-card-header>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-item routerLink="/courses/2/attendances" detail>
+      <ion-card-header>
+        <ion-card-title>Algebra 1</ion-card-title>
+        <ion-card-subtitle>ALG-101 / TH 13:00 - 14:00</ion-card-subtitle>
+      </ion-card-header>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-item routerLink="/courses/3/attendances" detail>
+      <ion-card-header>
+        <ion-card-title>Chemis 3</ion-card-title>
+        <ion-card-subtitle>CHEM-3 / MH 7:00 - 8:30</ion-card-subtitle>
+      </ion-card-header>
+    </ion-item>
+  </ion-card>
+  <ion-card>
+    <ion-item routerLink="/courses/3/attendances" detail>
+      <ion-card-header>
+        <ion-card-title>iSAD</ion-card-title>
+        <ion-card-subtitle>PROG-69 / SaS 6:00 - 9:00</ion-card-subtitle>
+      </ion-card-header>
+    </ion-item>
+  </ion-card>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="presentAlert()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

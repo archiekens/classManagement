@@ -1,3 +1,41 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu side="end" menuId="first" *ngIf="showMenu">
+    <ion-content>
+      <ion-list>
+        <div class="sidebar-image_container">
+          <img src="/assets/images/citcs_logo.png">
+          <ion-menu-toggle>
+            <ion-icon name="close"></ion-icon>
+          </ion-menu-toggle>
+        </div>
+        <ion-menu-toggle>
+          <ion-item routerLink="/dashboard" routerDirection="root">Dashboard</ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item routerLink="/courses" routerDirection="root">My Courses</ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item routerLink="/students" routerDirection="root">My Students</ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item routerLink="/profile" routerDirection="root">My Profile</ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle>
+          <ion-item routerLink="/login" (click)="logout()">Logout</ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  <ion-header *ngIf="showHeader">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button icon="arrow-round-back"></ion-back-button>
+      </ion-buttons>
+      <ion-title>{{ headerText }}</ion-title>
+      <ion-buttons slot="end" *ngIf="showMenu">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-router-outlet main></ion-router-outlet>
 </ion-app>
