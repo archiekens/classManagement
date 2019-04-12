@@ -33,11 +33,11 @@ export class AppComponent {
       this.splashScreen.hide();
 
       this.authenticationService.authenticationState.subscribe(state => {
-        // if (state) {
-        //   this.router.navigate(['dashboard']);
-        // } else {
-        //   this.router.navigate(['login']);
-        // }
+        if (state) {
+          this.router.navigate(['dashboard']);
+        } else {
+          this.router.navigate(['login']);
+        }
       });
 
       this.router.events.subscribe((event) => {

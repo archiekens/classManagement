@@ -29,9 +29,13 @@ export class AuthenticationService {
  
   login(user) {
     this.apiService.loginInstructor(user).subscribe((response) => {
-      this.authenticationState.next(true);
+      if (response.status !== 'failed') {
+        this.authenticationState.next(true);
+      } else {
+        // Display error message
+      }
     }, (error) => {
-      this.authenticationState.next(true);
+      // Display flash or something
     });
   }
  
