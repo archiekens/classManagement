@@ -25,4 +25,22 @@ export class ApiService {
     );
   }
 
+  registerInstructor(user) {
+    let body = new HttpParams()
+      .set('first_name', user.firstName)
+      .set('last_name', user.lastName)
+      .set('username', user.username)
+      .set('password', user.password)
+      .set('gender', user.gender)
+      .set('birthday', user.birthday.substring(0,10))
+      .set('contact_no', user.contactNo)
+    return this.http.post(this.server + '/instructors/add',
+      body,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
 }

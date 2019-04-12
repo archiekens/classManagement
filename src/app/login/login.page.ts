@@ -19,7 +19,7 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    let result = this.authService.login(this.user);
+    this.authService.login(this.user);
   }
 
 }

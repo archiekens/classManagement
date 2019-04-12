@@ -1,23 +1,20 @@
 <ion-content>
-  <ion-item><ion-input placeholder="First Name"></ion-input></ion-item>
-  <ion-item><ion-input placeholder="Middle Name"></ion-input></ion-item>
-  <ion-item><ion-input placeholder="Last Name"></ion-input></ion-item>
-  <ion-item><ion-input placeholder="Username"></ion-input></ion-item>
-  <ion-item><ion-input placeholder="Job Title"></ion-input></ion-item>
-  <ion-item><ion-input placeholder="Password" type="password"></ion-input></ion-item>
-  <ion-item><ion-input placeholder="Confirm Password" type="password"></ion-input></ion-item>
+  <ion-item><ion-input placeholder="First Name" [(ngModel)]="user.firstName"></ion-input></ion-item>
+  <ion-item><ion-input placeholder="Last Name" [(ngModel)]="user.lastName"></ion-input></ion-item>
+  <ion-item><ion-input placeholder="Username" [(ngModel)]="user.username"></ion-input></ion-item>
+  <ion-item><ion-input placeholder="Password" type="password" [(ngModel)]="user.password"></ion-input></ion-item>
+  <ion-item><ion-input placeholder="Confirm Password" type="password" [(ngModel)]="user.confirmPassword"></ion-input></ion-item>
   <ion-item>
    <ion-label>Gender</ion-label>
-    <ion-select>
-      <ion-select-option value="1" selected="true">Female</ion-select-option>
-      <ion-select-option value="0">Male</ion-select-option>
+    <ion-select [(ngModel)]="user.gender">
+      <ion-select-option value="2" selected="true">Female</ion-select-option>
+      <ion-select-option value="1">Male</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-item>
     <ion-label>Birthday</ion-label>
-    <ion-datetime display-format="MMM DD, YYYY" value="2019-03-31"></ion-datetime>
+    <ion-datetime display-format="MMM DD, YYYY" value="2019-03-31" [(ngModel)]="user.birthday"></ion-datetime>
   </ion-item>
-  <ion-item><ion-input placeholder="Contact Number"></ion-input></ion-item>
-  <ion-item><ion-input placeholder="Address"></ion-input></ion-item>
+  <ion-item><ion-input placeholder="Contact Number" [(ngModel)]="user.contactNo"></ion-input></ion-item>
   <ion-button expand="block" (click)="register()">Submit</ion-button>
 </ion-content>
