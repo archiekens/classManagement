@@ -6,10 +6,7 @@ ion-toolbar {
 
 ion-router-outlet {
   top: 70px;
-}
-
-ion-tab-button {
-  color: white;
+  height: calc(100% - (70px + 67px));
 }
 
 ion-header {

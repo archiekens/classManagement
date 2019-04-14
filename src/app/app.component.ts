@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthenticationService } from './services/authentication.service';
 import { Router, NavigationEnd } from '@angular/router';
+import { DataService } from './services/data.service';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +16,17 @@ export class AppComponent {
 
    showHeader: boolean = false;
    showMenu: boolean = false;
+   showFooter: boolean = false;
    headerText: string = '';
+   selectedCourse = null;
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private dataService: DataService
   ) {
     this.initializeApp();
   }
@@ -45,6 +49,7 @@ export class AppComponent {
           let sub = event.url.split('/');
           this.showHeader = true;
           this.showMenu = true;
+          this.showFooter = false;
           switch (event.url) {
             case "/login":
               this.headerText = '';
@@ -83,6 +88,8 @@ export class AppComponent {
                 this.headerText = 'Grading';
                 break;
             }
+            this.selectedCourse = this.dataService.selectedCourse;
+            this.showFooter = true;
           }
         }
       });

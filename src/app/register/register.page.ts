@@ -31,8 +31,8 @@ export class RegisterPage implements OnInit {
   }
 
   register() {
-    this.apiService.registerInstructor(this.user).subscribe((response) => {
-      if (response.status !== 'failed') {
+    this.apiService.registerInstructor(this.user).subscribe((response: any) => {
+      if (response.status === 'success') {
         this.presentToast();
         this.router.navigate(['login']);
       } else {

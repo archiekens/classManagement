@@ -4,8 +4,6 @@ import { Storage } from '@ionic/storage';
 import { BehaviorSubject } from 'rxjs';
 import { ApiService } from './api.service';
  
-const TOKEN_KEY = 'auth-token';
- 
 @Injectable({
   providedIn: 'root'
 })
@@ -20,16 +18,17 @@ export class AuthenticationService {
   }
  
   checkToken() {
-    this.storage.get(TOKEN_KEY).then(res => {
-      if (res) {
+    this.storage.get('user').then(response => {
+      if (response) {
         this.authenticationState.next(true);
       }
     })
   }
  
   login(user) {
-    this.apiService.loginInstructor(user).subscribe((response) => {
-      if (response.status !== 'failed') {
+    this.apiService.loginInstructor(user).subscribe((response: any) => {
+      if (response.status === 'success') {
+        this.storage.set('user', response.data[0]['Instructor']);
         this.authenticationState.next(true);
       } else {
         // Display error message
@@ -40,6 +39,7 @@ export class AuthenticationService {
   }
  
   logout() {
+    this.storage.remove('user');
     this.authenticationState.next(false);
   }
  

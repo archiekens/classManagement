@@ -1,57 +1,38 @@
 <ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Course Name</ion-card-title>
-      <ion-card-subtitle>Course code / MWF 9:00 - 10:00</ion-card-subtitle>
+      <ion-card-title>{{selectedCourse.name}}</ion-card-title>
+      <ion-card-subtitle>{{selectedCourse.code}} / {{selectedCourse.schedule}}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
       <ion-item>
         <ion-label>Date Selected:</ion-label>
-        <ion-datetime display-format="MMM DD, YYYY" value="2019-03-31"></ion-datetime>
+        <ion-datetime display-format="MMM DD, YYYY" [(ngModel)]="selectedDate" (ionChange)="changeDate()"></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label>Status: {{attendanceStatus}}</ion-label>
       </ion-item>
       <ion-grid>
         <ion-row>
-          <ion-col>Present: 69</ion-col>
-          <ion-col>Absent: 1</ion-col>
+          <ion-col>Present: {{presentCount}}</ion-col>
+          <ion-col>Absent: {{absentCount}}</ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-content>
   </ion-card>
-  <ion-list>
-    <ion-item>
-      <ion-label>Student A</ion-label>
-      <ion-checkbox slot="end" checked></ion-checkbox>
-    </ion-item>
-    <ion-item>
-      <ion-label>Student B</ion-label>
-      <ion-checkbox slot="end" ></ion-checkbox>
-    </ion-item>
-    <ion-item>
-      <ion-label>Student C</ion-label>
-      <ion-checkbox slot="end" checked></ion-checkbox>
+  <ion-list *ngIf="attendances.length !== 0">
+    <ion-item *ngFor="let attendance of attendances">
+      <ion-label>{{attendance.Attendance.student_name}}</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="attendance.Attendance.is_present"></ion-checkbox>
     </ion-item>
   </ion-list>
-  <ion-button expand="block">Save</ion-button>
+  <ion-card *ngIf="attendances.length === 0">
+    <ion-item>
+      <ion-card-header>
+        <ion-card-title>No Students Yet</ion-card-title>
+        <ion-card-subtitle>Go to the students tab to add a student</ion-card-subtitle>
+      </ion-card-header>
+    </ion-item>
+  </ion-card>
+  <ion-button expand="block" (click)="saveAttendances()" *ngIf="attendances.length !== 0">Save</ion-button>
 </ion-content>
-
-<ion-tab-bar slot="bottom">
-  <ion-tab-button routerLink="/courses/1/attendances">
-    <ion-icon name="calendar"></ion-icon>
-    <ion-label>Attendance</ion-label>
-  </ion-tab-button>
-
-  <ion-tab-button routerLink="/courses/1/students">
-    <ion-icon name="person"></ion-icon>
-    <ion-label>Students</ion-label>
-  </ion-tab-button>
-  
-  <ion-tab-button routerLink="/courses/1/activities">
-    <ion-icon name="clipboard"></ion-icon>
-    <ion-label>Activities</ion-label>
-  </ion-tab-button>
-
-  <ion-tab-button routerLink="/courses/1/grading">
-    <ion-icon name="calculator"></ion-icon>
-    <ion-label>Grading</ion-label>
-  </ion-tab-button>
-</ion-tab-bar>

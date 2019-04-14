@@ -1,52 +1,28 @@
 <ion-content>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Course Name</ion-card-title>
-      <ion-card-subtitle>Course code / MWF 9:00 - 10:00</ion-card-subtitle>
+      <ion-card-title>{{selectedCourse.name}}</ion-card-title>
+      <ion-card-subtitle>{{selectedCourse.code}} / {{selectedCourse.schedule}}</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
-  <ion-list>
-    <ion-item>
-      <ion-label>Student A</ion-label>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-label>Student B</ion-label>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-label>Student C</ion-label>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
+  <ion-list *ngIf="students.length !== 0">
+    <ion-item *ngFor="let student of students">
+      <ion-label>{{student.Student.name}}</ion-label>
+      <ion-button fill="clear" (click)="editStudent(student)"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button>
+      <ion-button fill="clear" (click)="deleteStudent(student.Student.id)"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
     </ion-item>
   </ion-list>
+  <ion-card *ngIf="students.length === 0">
+    <ion-item>
+      <ion-card-header>
+        <ion-card-title>No Students Yet</ion-card-title>
+        <ion-card-subtitle>Click the + button below to add a student</ion-card-subtitle>
+      </ion-card-header>
+    </ion-item>
+  </ion-card>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="presentAlert()">
+    <ion-fab-button (click)="addStudent()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 </ion-content>
-
-<ion-tab-bar slot="bottom">
-  <ion-tab-button routerLink="/courses/1/attendances">
-    <ion-icon name="calendar"></ion-icon>
-    <ion-label>Attendance</ion-label>
-  </ion-tab-button>
-
-  <ion-tab-button routerLink="/courses/1/students">
-    <ion-icon name="person"></ion-icon>
-    <ion-label>Students</ion-label>
-  </ion-tab-button>
-  
-  <ion-tab-button routerLink="/courses/1/activities">
-    <ion-icon name="clipboard"></ion-icon>
-    <ion-label>Activities</ion-label>
-  </ion-tab-button>
-
-  <ion-tab-button routerLink="/courses/1/grading">
-    <ion-icon name="calculator"></ion-icon>
-    <ion-label>Grading</ion-label>
-  </ion-tab-button>
-</ion-tab-bar>

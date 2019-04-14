@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
+import { ApiService } from '../services/api.service';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-courses',
@@ -8,12 +11,37 @@ import { AlertController } from '@ionic/angular';
 })
 export class CoursesPage implements OnInit {
 
-  constructor(public alertController: AlertController) { }
+  courses: any = [];
+  userId = null;
+
+  constructor(
+    public alertController: AlertController,
+    private storage: Storage,
+    private apiService: ApiService,
+    private dataService: DataService
+  ) {
+    this.storage.get('user').then(response => {
+      this.userId = response.id;
+      this.getCourses();
+    });
+  }
 
   ngOnInit() {
   }
 
-  async presentAlert() {
+  selectCourse(course) {
+    this.dataService.selectedCourse = course.Course;
+  }
+
+  getCourses() {
+    this.apiService.getCourses(this.userId).subscribe((response: any) => {
+      if (response.status === 'success') {
+        this.courses = response.data;
+      }
+    });
+  }
+
+  async addCourse() {
     const alert = await this.alertController.create({
       header: 'Add Course',
       message: 'Enter the name of the course, its code, and its schedule.',
@@ -39,13 +67,18 @@ export class CoursesPage implements OnInit {
           text: 'Cancel',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
-          }
         }, {
           text: 'Ok',
-          handler: () => {
-            console.log('Confirm Ok');
+          handler: (data) => {
+            let course = {
+              instructorId: this.userId,
+              name: data.name,
+              code: data.code,
+              schedule: data.schedule
+            };
+            this.apiService.addCourse(course).subscribe(response => {
+              this.getCourses();
+            });
           }
         }
       ]
