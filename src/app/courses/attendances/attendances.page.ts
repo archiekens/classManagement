@@ -16,7 +16,7 @@ export class AttendancesPage implements OnInit {
   students = [];
   presentCount = 0;
   absentCount = 0;
-  attendanceStatus = 'Not saved';
+  attendanceStatus = 'No attendance yet';
 
   constructor(
     private dataService: DataService,
@@ -59,16 +59,16 @@ export class AttendancesPage implements OnInit {
           this.attendances.push(attendance);
         }
 
-        this.attendanceStatus = 'Saved';
+        this.attendanceStatus = 'Attendance taken';
       } else {
-        this.attendanceStatus = 'Not saved';
+        this.attendanceStatus = 'No attendance yet';
         for(var student of this.students) {
           let attendace = {
             Attendance: {
               course_id: this.selectedCourse.id,
               student_id: student.Student.id,
               date_taken: selectedDateString,
-              is_present: true,
+              is_present: false,
               student_name: student.Student.name
             }
           }
@@ -80,8 +80,14 @@ export class AttendancesPage implements OnInit {
     });
   }
 
+  selectAllStudents() {
+    for(var attendance of this.attendances) {
+      attendance.Attendance.is_present = true;
+    }
+  }
+
   saveAttendances() {
-    if (this.attendanceStatus === 'Not saved') {
+    if (this.attendanceStatus === 'No attendance yet') {
       this.apiService.addAttendances(this.attendances).subscribe(response => {
         this.getAttendances();
       });

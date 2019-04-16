@@ -12,7 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { IonicStorageModule } from '@ionic/storage';
 import { HttpClientModule } from '@angular/common/http';
 
-
+import { AddActivityPageModule } from './modals/add-activity/add-activity.module';
 import { DatePipe } from '@angular/common';
 
 @NgModule({
@@ -23,7 +23,8 @@ import { DatePipe } from '@angular/common';
   	IonicModule.forRoot(),
   	AppRoutingModule,
   	IonicStorageModule.forRoot(),
-  	HttpClientModule
+  	HttpClientModule,
+    AddActivityPageModule
   	],
   providers: [
     StatusBar,

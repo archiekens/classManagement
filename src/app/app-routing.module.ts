@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
   { path: 'students', loadChildren: './students/students.module#StudentsPageModule' },
   { path: 'courses/:id/activities/:id2/results', loadChildren: './courses/activities/results/results.module#ResultsPageModule' },
+  { path: 'add-activity', loadChildren: './modals/add-activity/add-activity.module#AddActivityPageModule' },
 ];
 
 @NgModule({

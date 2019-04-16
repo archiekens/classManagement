@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar text-center>
+    <ion-title>Add Activity</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding *ngIf="criteria.length !== 0">
+  <ion-grid>
+    <ion-row text-center>
+      <ion-label>Activity Name</ion-label>
+      <ion-input placeholder="Quiz 1" [(ngModel)]="activity.name" required></ion-input>
+    </ion-row>
+    <ion-row text-center>
+      <ion-label>Grading Criteria</ion-label>
+      <ion-select [(ngModel)]="activity.criteriaId">
+        <ion-select-option *ngFor="let criterion of criteria" value="{{criterion.Criterion.id}}">{{criterion.Criterion.name}}</ion-select-option>
+      </ion-select>
+    </ion-row>
+    <ion-row>
+      <ion-col text-center>
+        <ion-button (click)="addActivity()">Save</ion-button>
+        <ion-button (click)="closeModal()" color="light">Cancel</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-content padding *ngIf="criteria.length === 0">
+  <ion-grid>
+    <ion-row>
+      <ion-col text-center>
+        No criteria yet. <br>
+        Go to Grading tab first to add criteria.
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+

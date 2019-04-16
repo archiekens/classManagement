@@ -5,40 +5,24 @@
       <ion-card-subtitle>Course code / MWF 9:00 - 10:00</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
-  <ion-list>
-    <ion-item>
-      <ion-label>Attendance</ion-label>
-      <ion-note slot="start">10%</ion-note>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-label>Quiz</ion-label>
-      <ion-note slot="start">20%</ion-note>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-label>Assignments</ion-label>
-      <ion-note slot="start">15%</ion-note>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-label>Exams</ion-label>
-      <ion-note slot="start">30%</ion-note>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
-    </ion-item>
-    <ion-item>
-      <ion-label>Projects</ion-label>
-      <ion-note slot="start">25%</ion-note>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button>
-      <ion-button fill="clear"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
+  <ion-list *ngIf="criteria.length !== 0">
+    <ion-item *ngFor="let criterion of criteria">
+      <ion-label>{{criterion.Criterion.name}}</ion-label>
+      <ion-note slot="start">{{criterion.Criterion.percentage}}%</ion-note>
+      <ion-button fill="clear" (click)="editCriteria(criterion)"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button>
+      <ion-button fill="clear" (click)="deleteCriteria(criterion.Criterion.id)"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
     </ion-item>
   </ion-list>
+  <ion-card *ngIf="criteria.length === 0">
+    <ion-item>
+      <ion-card-header>
+        <ion-card-title>No Criteria Yet</ion-card-title>
+        <ion-card-subtitle>Click the + button below to add a criteria</ion-card-subtitle>
+      </ion-card-header>
+    </ion-item>
+  </ion-card>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="presentAlert()">
+    <ion-fab-button (click)="addCriteria()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

@@ -1,48 +1,27 @@
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Course Name</ion-card-title>
-      <ion-card-subtitle>Course code / MWF 9:00 - 10:00</ion-card-subtitle>
-    </ion-card-header>
-  </ion-card>
-  <ion-card>
-    <ion-item routerLink="/courses/1/activities/1/results" detail>
+  <ion-card-header>
+    <ion-card-title>{{selectedCourse.name}}</ion-card-title>
+    <ion-card-subtitle>{{selectedCourse.code}} / {{selectedCourse.schedule}}</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card *ngFor="let activity of activities">
+    <ion-item routerLink="/courses/{{selectedCourse.id}}/activities/{{activity.Activity.id}}/results" detail>
       <ion-card-header>
-        <ion-card-title>Activity Name</ion-card-title>
-        <ion-card-subtitle>Criteria</ion-card-subtitle>
-        <ion-card-subtitle>Date Created</ion-card-subtitle>
+        <ion-card-title>{{activity.Activity.name}}</ion-card-title>
+        <ion-card-subtitle>{{activity.Criterion.name}}</ion-card-subtitle>
+        <ion-card-subtitle>{{activity.Activity.created}}</ion-card-subtitle>
       </ion-card-header>
     </ion-item>
   </ion-card>
-  <ion-card>
-    <ion-item routerLink="/courses/1/activities/1/results" detail>
+  <ion-card *ngIf="activities.length === 0">
+    <ion-item>
       <ion-card-header>
-        <ion-card-title>Quiz 1</ion-card-title>
-        <ion-card-subtitle>Quiz</ion-card-subtitle>
-        <ion-card-subtitle>March 30, 2019</ion-card-subtitle>
-      </ion-card-header>
-    </ion-item>
-  </ion-card>
-  <ion-card>
-    <ion-item routerLink="/courses/1/activities/1/results" detail>
-      <ion-card-header>
-        <ion-card-title>Prelims</ion-card-title>
-        <ion-card-subtitle>Major Exam</ion-card-subtitle>
-        <ion-card-subtitle>April 1, 2019</ion-card-subtitle>
-      </ion-card-header>
-    </ion-item>
-  </ion-card>
-  <ion-card>
-    <ion-item routerLink="/courses/1/activities/1/results" detail>
-      <ion-card-header>
-        <ion-card-title>Assignment 4</ion-card-title>
-        <ion-card-subtitle>Assignment</ion-card-subtitle>
-        <ion-card-subtitle>March 29, 2019</ion-card-subtitle>
+        <ion-card-title>No Activities Yet</ion-card-title>
+        <ion-card-subtitle>Click the + button below to add an activity</ion-card-subtitle>
       </ion-card-header>
     </ion-item>
   </ion-card>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button>
+    <ion-fab-button (click)="addActivity()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

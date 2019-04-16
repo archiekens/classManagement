@@ -1,10 +1,8 @@
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>{{selectedCourse.name}}</ion-card-title>
-      <ion-card-subtitle>{{selectedCourse.code}} / {{selectedCourse.schedule}}</ion-card-subtitle>
-    </ion-card-header>
-  </ion-card>
+  <ion-card-header>
+    <ion-card-title>{{selectedCourse.name}}</ion-card-title>
+    <ion-card-subtitle>{{selectedCourse.code}} / {{selectedCourse.schedule}}</ion-card-subtitle>
+  </ion-card-header>
   <ion-list *ngIf="students.length !== 0">
     <ion-item *ngFor="let student of students">
       <ion-label>{{student.Student.name}}</ion-label>

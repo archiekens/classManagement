@@ -112,7 +112,7 @@ export class StudentsPage implements OnInit {
           role: 'cancel',
           cssClass: 'secondary',
         }, {
-          text: 'Yes',
+          text: 'Confirm',
           handler: () => {
             this.apiService.deleteStudent(studentId).subscribe(response => {
               this.getStudents();

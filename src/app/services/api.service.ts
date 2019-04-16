@@ -170,4 +170,74 @@ export class ApiService {
     );
   }
 
+  getCriteria(courseId) {
+    return this.http.get(this.server + '/criteria/show_list?course_id=' + courseId,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
+  addCriteria(criterion) {
+    let body = new HttpParams()
+      .set('name', criterion.name)
+      .set('percentage', criterion.percentage)
+      .set('course_id', criterion.courseId)
+    return this.http.post(this.server + '/criteria/add',
+      body,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
+  editCriteria(criterion) {
+    let body = new HttpParams()
+      .set('id', criterion.id)
+      .set('name', criterion.name)
+      .set('percentage', criterion.percentage)
+      .set('course_id', criterion.courseId)
+    return this.http.put(this.server + '/criteria/edit/' + criterion.id,
+      body,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
+  deleteCriteria(criteriaId) {
+    return this.http.delete(this.server + '/criteria/delete/' + criteriaId,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
+  getActivities(courseId) {
+    return this.http.get(this.server + '/activities/show_list?course_id=' + courseId,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
+  addActivity(activity) {
+    let body = new HttpParams()
+      .set('name', activity.name)
+      .set('criteria_id', activity.criteriaId)
+      .set('course_id', activity.courseId)
+    return this.http.post(this.server + '/activities/add',
+      body,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
 }
