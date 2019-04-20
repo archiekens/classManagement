@@ -9,6 +9,7 @@ const routes: Routes = [
   { path: 'courses', loadChildren: './courses/courses.module#CoursesPageModule' },
   { path: 'courses/:id/attendances', loadChildren: './courses/attendances/attendances.module#AttendancesPageModule' },
   { path: 'courses/:id/students', loadChildren: './courses/students/students.module#StudentsPageModule' },
+  { path: 'courses/:id/students/:id2/summary', loadChildren: './courses/students/summary/summary.module#SummaryPageModule' },
   { path: 'courses/:id/activities', loadChildren: './courses/activities/activities.module#ActivitiesPageModule' },
   { path: 'courses/:id/grading', loadChildren: './courses/grading/grading.module#GradingPageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },

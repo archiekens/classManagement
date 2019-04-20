@@ -52,13 +52,21 @@ export class StudentsPage implements OnInit {
         }, {
           text: 'Ok',
           handler: (data) => {
-            let student = {
-              name: data.name,
-              courseId: this.selectedCourse.id
-            };
-            this.apiService.addStudent(student).subscribe(response => {
-              this.getStudents();
-            });
+            if (data.name.length === 0) {
+              this.dataService.showFlash('Student name is required', 'error')
+              return false;
+            } else {
+              let student = {
+                name: data.name,
+                courseId: this.selectedCourse.id
+              };
+              this.apiService.addStudent(student).subscribe(response => {
+                this.dataService.showFlash();
+                this.getStudents();
+              }, error => {
+                this.dataService.showFlash('Failed to save. Please try again.', 'error');
+              });
+            }
           }
         }
       ]
@@ -87,13 +95,21 @@ export class StudentsPage implements OnInit {
         }, {
           text: 'Update',
           handler: (data) => {
-            let newStudent = {
-              id: student.Student.id,
-              name: data.name,
-            };
-            this.apiService.editStudent(newStudent).subscribe(response => {
-              this.getStudents();
-            });
+            if (data.name.length === 0) {
+              this.dataService.showFlash('Student name is required', 'error')
+              return false;
+            } else {
+              let newStudent = {
+                id: student.Student.id,
+                name: data.name,
+              };
+              this.apiService.editStudent(newStudent).subscribe(response => {
+                this.dataService.showFlash();
+                this.getStudents();
+              }, error => {
+                this.dataService.showFlash('Failed to save. Please try again.', 'error');
+              });
+            }
           }
         }
       ]
@@ -115,7 +131,10 @@ export class StudentsPage implements OnInit {
           text: 'Confirm',
           handler: () => {
             this.apiService.deleteStudent(studentId).subscribe(response => {
+              this.dataService.showFlash('Successfuly deleted.');
               this.getStudents();
+            }, error => {
+              this.dataService.showFlash('Failed to delete. Please try again.', 'error');
             });
           }
         }
@@ -123,6 +142,10 @@ export class StudentsPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  selectStudent(student) {
+    this.dataService.selectedStudent = student;
   }
 
 }

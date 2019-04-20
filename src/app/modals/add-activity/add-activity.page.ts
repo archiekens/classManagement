@@ -13,10 +13,12 @@ export class AddActivityPage implements OnInit {
   selectedCourse = null;
   criteria = [];
   activity = {
-    name: null,
-    criteriaId: null,
-    courseId: null
+    id: '',
+    name: '',
+    criteriaId: '',
+    courseId: ''
   };
+  errorMessage = '';
 
   constructor(
     private modalController: ModalController,
@@ -33,11 +35,22 @@ export class AddActivityPage implements OnInit {
   }
 
   ngOnInit() {
+    if (this.dataService.selectedActivityForEdit !== {}) {
+      let selectedActivity = this.dataService.selectedActivityForEdit.Activity;
+      this.activity.id = selectedActivity.id;
+      this.activity.name = selectedActivity.name;
+      this.activity.criteriaId = selectedActivity.criteria_id;
+    }
   }
 
   async addActivity() {
-    this.activity.courseId = this.selectedCourse.id;
-    await this.modalController.dismiss(this.activity);
+    if (this.activity.name.length === 0 || this.activity.criteriaId.length === 0) {
+      this.errorMessage = 'Activity name and criteria is required.';
+    } else {
+      this.activity.courseId = this.selectedCourse.id;
+      await this.modalController.dismiss(this.activity);
+    }
+    
   }
 
   async closeModal() {

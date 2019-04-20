@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastController } from '@ionic/angular';
 import { Router, NavigationEnd } from '@angular/router';
 import { ApiService } from '../services/api.service';
+import { DataService } from '../services/data.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -11,20 +12,31 @@ import { ApiService } from '../services/api.service';
 export class RegisterPage implements OnInit {
 
   private user = {
-    firstName: null,
-    lastName: null,
-    username: null,
-    password: null,
-    confirmPassword: null,
-    gender: 2,
-    birthday: null,
-    contactNo: null,
+    firstName: '',
+    lastName: '',
+    position: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
+    gender: '2',
+    birthday: this.datePipe.transform(new Date().toString(), 'yyyy-MM-dd'),
+    contactNo: '',
+  };
+
+  private errors = {
+    firstName: '',
+    lastName: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
   };
 
   constructor(
-    public toastController: ToastController,
+
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private dataService: DataService,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit() {
@@ -33,24 +45,18 @@ export class RegisterPage implements OnInit {
   register() {
     this.apiService.registerInstructor(this.user).subscribe((response: any) => {
       if (response.status === 'success') {
-        this.presentToast();
+        this.dataService.showFlash('Successfuly registered.');
         this.router.navigate(['login']);
       } else {
-        // Display error message
+        this.errors = response.errors;
       }
     }, (error) => {
-      // Display flash or something
+      this.dataService.showFlash('Could not register. Please try again.', 'error');
     });
   }
 
-  async presentToast() {
-    const toast = await this.toastController.create({
-      message: 'Successfully registered.',
-      position: 'top',
-      duration: 2000
-    });
-    toast.present();
+  cancel() {
+    this.router.navigate(['login']);
   }
-
 
 }

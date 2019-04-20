@@ -29,12 +29,34 @@ export class ApiService {
     let body = new HttpParams()
       .set('first_name', user.firstName)
       .set('last_name', user.lastName)
+      .set('position', user.position)
       .set('username', user.username)
       .set('password', user.password)
+      .set('confirm_password', user.confirmPassword)
       .set('gender', user.gender)
       .set('birthday', user.birthday.substring(0,10))
       .set('contact_no', user.contactNo)
     return this.http.post(this.server + '/instructors/add',
+      body,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
+  updateInstructor(user) {
+    let body = new HttpParams()
+      .set('first_name', user.firstName)
+      .set('last_name', user.lastName)
+      .set('position', user.position)
+      .set('username', user.username)
+      .set('password', user.password)
+      .set('confirm_password', user.confirmPassword)
+      .set('gender', user.gender)
+      .set('birthday', user.birthday.substring(0,10))
+      .set('contact_no', user.contactNo)
+    return this.http.put(this.server + '/instructors/edit/' + user.id,
       body,
       {
         headers: this.headers,
@@ -60,6 +82,30 @@ export class ApiService {
       .set('schedule', course.schedule)
     return this.http.post(this.server + '/courses/add',
       body,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
+  editCourse(course) {
+    let body = new HttpParams()
+      .set('instructor_id', course.instructorId)
+      .set('name', course.name)
+      .set('code', course.code)
+      .set('schedule', course.schedule)
+    return this.http.put(this.server + '/courses/edit/' + course.id,
+      body,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
+  deleteCourse(courseId) {
+    return this.http.delete(this.server + '/courses/delete/' + courseId,
       {
         headers: this.headers,
         responseType: 'json'
@@ -233,6 +279,102 @@ export class ApiService {
       .set('course_id', activity.courseId)
     return this.http.post(this.server + '/activities/add',
       body,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
+  editActivity(activity) {
+    let body = new HttpParams()
+      .set('name', activity.name)
+      .set('criteria_id', activity.criteriaId)
+      .set('course_id', activity.courseId)
+    return this.http.put(this.server + '/activities/edit/' + activity.id,
+      body,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
+  deleteActivity(activityId) {
+    return this.http.delete(this.server + '/activities/delete/' + activityId,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
+  searchStudent(query) {
+    return this.http.get(this.server + '/students/search/',
+      {
+        headers: this.headers,
+        params: new HttpParams()
+          .set('name', query.name)
+          .set('instructor_id', query.userId),
+        responseType: 'json'
+      }
+    );
+  }
+
+  getActivityResults(activityId) {
+    return this.http.get(this.server + '/activity_results/show_list?activity_id=' + activityId,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
+  addActivityResults(activityResults) {
+    let body = new HttpParams();
+    let i = 0;
+
+    for(var result of activityResults) {
+      body = body
+        .append('activity_result['+i+'][activity_id]', result.ActivityResult.activity_id)
+        .append('activity_result['+i+'][student_id]', result.ActivityResult.student_id)
+        .append('activity_result['+i+'][score]', result.ActivityResult.score)
+      i++;
+    }
+
+    return this.http.post(this.server + '/activity_results/add',
+      body,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
+  editActivityResults(activityResults) {
+    let body = new HttpParams();
+    let i = 0;
+
+    for(var result of activityResults) {
+      body = body
+        .append('activity_result['+i+'][id]', result.ActivityResult.id)
+        .append('activity_result['+i+'][activity_id]', result.ActivityResult.activity_id)
+        .append('activity_result['+i+'][student_id]', result.ActivityResult.student_id)
+        .append('activity_result['+i+'][score]', result.ActivityResult.score)
+      i++;
+    }
+
+    return this.http.put(this.server + '/activity_results/edit',
+      body,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
+  getStudentFinalGrade(studentId) {    
+    return this.http.get(this.server + '/students/final_grade/' + studentId,
       {
         headers: this.headers,
         responseType: 'json'

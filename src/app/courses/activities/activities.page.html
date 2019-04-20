@@ -4,12 +4,16 @@
     <ion-card-subtitle>{{selectedCourse.code}} / {{selectedCourse.schedule}}</ion-card-subtitle>
   </ion-card-header>
   <ion-card *ngFor="let activity of activities">
-    <ion-item routerLink="/courses/{{selectedCourse.id}}/activities/{{activity.Activity.id}}/results" detail>
+    <ion-item routerLink="/courses/{{selectedCourse.id}}/activities/{{activity.Activity.id}}/results" routerDirection="forward" (click)="selectActivity(activity)" detail>
       <ion-card-header>
         <ion-card-title>{{activity.Activity.name}}</ion-card-title>
         <ion-card-subtitle>{{activity.Criterion.name}}</ion-card-subtitle>
-        <ion-card-subtitle>{{activity.Activity.created}}</ion-card-subtitle>
+        <ion-card-subtitle>{{activity.Activity.created | date:'fullDate'}}</ion-card-subtitle>
       </ion-card-header>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-button slot="end" fill="clear" (click)="editActivity(activity)"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button>
+      <ion-button slot="end" fill="clear" (click)="deleteActivity(activity.Activity.id)"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
     </ion-item>
   </ion-card>
   <ion-card *ngIf="activities.length === 0">
@@ -20,7 +24,7 @@
       </ion-card-header>
     </ion-item>
   </ion-card>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
     <ion-fab-button (click)="addActivity()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>

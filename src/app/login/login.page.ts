@@ -13,7 +13,13 @@ export class LoginPage implements OnInit {
     password: null
   };
 
-  constructor(private authService: AuthenticationService) { }
+  errorMessage = '';
+
+  constructor(private authService: AuthenticationService) {
+    this.authService.errorMessage.subscribe(message => {
+      this.errorMessage = message;
+    });
+  }
 
   ngOnInit() {
   }

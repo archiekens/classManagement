@@ -1,10 +1,14 @@
 <ion-content>
 	<ion-card *ngFor="let course of courses">
-    <ion-item routerLink="/courses/{{course.Course.id}}/attendances" (click)="selectCourse(course)" detail>
+    <ion-item routerLink="/courses/{{course.Course.id}}/attendances" routerDirection="forward" (click)="selectCourse(course)" detail>
       <ion-card-header>
         <ion-card-title>{{course.Course.name}}</ion-card-title>
-        <ion-card-subtitle>{{course.Course.code}} / {{course.Course.schedule}}</ion-card-subtitle>
+        <ion-card-subtitle>{{course.Course.code}} | {{course.Course.schedule}}</ion-card-subtitle>
       </ion-card-header>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-button slot="end" fill="clear" (click)="editCourse(course)"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button>
+      <ion-button slot="end" fill="clear" (click)="deleteCourse(course.Course.id)"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
     </ion-item>
   </ion-card>
   <ion-card *ngIf="courses.length === 0">

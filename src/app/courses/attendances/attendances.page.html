@@ -5,11 +5,11 @@
   </ion-card-header>
   <ion-card>
     <ion-card-content>
-      <ion-item>
+      <ion-item lines="none">
         <ion-label>Date Selected:</ion-label>
         <ion-datetime display-format="MMM DD, YYYY" [(ngModel)]="selectedDate" (ionChange)="changeDate()"></ion-datetime>
       </ion-item>
-      <ion-item>
+      <ion-item lines="none">
         <ion-label>Status: </ion-label>
         <ion-label color="{{attendanceStatus == 'Attendance taken' ? 'primary' : 'danger'}}">{{attendanceStatus}}</ion-label>
       </ion-item>

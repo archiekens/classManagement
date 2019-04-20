@@ -19,6 +19,12 @@ export class AppComponent {
    showFooter: boolean = false;
    headerText: string = '';
    selectedCourse = null;
+   activeTab = {
+     attendances: 'active',
+     students: '',
+     activities: '',
+     grading: ''
+   };
 
   constructor(
     private platform: Platform,
@@ -46,6 +52,7 @@ export class AppComponent {
 
       this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
+          this.resetActiveTab();
           let sub = event.url.split('/');
           this.showHeader = true;
           this.showMenu = true;
@@ -77,14 +84,25 @@ export class AppComponent {
             switch (sub[3]) {
               case "attendances":
                 this.headerText = 'Attendance';
+                this.activeTab.attendances = 'active';
+                this.dataService.refreshPage.next(true);
                 break;
               case "students":
                 this.headerText = 'Students';
+                this.activeTab.students = 'active';
+                if (sub.length > 4) {
+                  this.headerText += ' - Summary';
+                }
                 break;
               case "activities":
                 this.headerText = 'Activities';
+                this.activeTab.activities = 'active';
+                if (sub.length > 4) {
+                  this.headerText += ' - Results';
+                }
                 break;
               case "grading":
+                this.activeTab.grading = 'active';
                 this.headerText = 'Grading';
                 break;
             }
@@ -94,6 +112,15 @@ export class AppComponent {
         }
       });
     });
+  }
+
+  resetActiveTab() {
+    this.activeTab = {
+      attendances: 'active',
+      students: '',
+      activities: '',
+      grading: ''
+    };
   }
 
   logout() {

@@ -5,6 +5,7 @@
     <div class="container-sub">
       <ion-input placeholder="Username" [(ngModel)]="user.username" required></ion-input>
       <ion-input placeholder="Password" type="password" [(ngModel)]="user.password" required></ion-input>
+      <ion-label text-wrap color="danger" position="floating">{{errorMessage}}</ion-label>
       <div>
         <ion-button expand="block" (click)="login()">Login</ion-button>
         <ion-label routerLink="/register">Not a member yet? Register here</ion-label>

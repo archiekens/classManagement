@@ -24,6 +24,19 @@ export class AttendancesPage implements OnInit {
     private apiService: ApiService,
   ) {
     this.selectedCourse = this.dataService.selectedCourse;
+    this.getData();
+    this.dataService.refreshPage.subscribe(state => {
+      if (state) {
+        this.getData();
+        this.dataService.refreshPage.next(false);
+      }
+    });
+  }
+
+  ngOnInit() {
+  }
+
+  getData() {
     this.apiService.getStudents(this.selectedCourse.id).subscribe((response: any) => {
       if (response.status === 'success') {
         this.students = response.data;
@@ -32,11 +45,8 @@ export class AttendancesPage implements OnInit {
     });
   }
 
-  ngOnInit() {
-  }
-
   changeDate() {
-    this.getAttendances();
+    this.getData();
   }
 
   getAttendances() {
@@ -62,20 +72,9 @@ export class AttendancesPage implements OnInit {
         this.attendanceStatus = 'Attendance taken';
       } else {
         this.attendanceStatus = 'No attendance yet';
-        for(var student of this.students) {
-          let attendace = {
-            Attendance: {
-              course_id: this.selectedCourse.id,
-              student_id: student.Student.id,
-              date_taken: selectedDateString,
-              is_present: false,
-              student_name: student.Student.name
-            }
-          }
-          this.attendances.push(attendace);
-        }
       }
 
+      this.mergeStudentsIntoData(selectedDateString);
       this.headcount();
     });
   }
@@ -89,13 +88,42 @@ export class AttendancesPage implements OnInit {
   saveAttendances() {
     if (this.attendanceStatus === 'No attendance yet') {
       this.apiService.addAttendances(this.attendances).subscribe(response => {
+        this.dataService.showFlash();
         this.getAttendances();
+      }, error => {
+        this.dataService.showFlash('Failed to save. Please try again.', 'error');
       });
     } else {
       this.apiService.editAttendances(this.attendances).subscribe(response => {
+        this.dataService.showFlash();
         this.getAttendances();
+      }, error => {
+        this.dataService.showFlash('Failed to save. Please try again.', 'error');
       });
     }
+    
+  }
+
+  mergeStudentsIntoData(dateTaken) {
+    for(var student of this.students) {
+      var result = this.attendances.find(obj => {
+        return obj.Attendance.student_id === student.Student.id
+      })
+      if (result === undefined) {
+        let attendace = {
+          Attendance: {
+            course_id: this.selectedCourse.id,
+            student_id: student.Student.id,
+            date_taken: dateTaken,
+            is_present: false,
+            student_name: student.Student.name
+          }
+        }
+        this.attendances.push(attendace);
+      }
+    }
+
+    this.dataService.sortArray(this.attendances, 'Attendance');
   }
 
   // Count no of present/absent

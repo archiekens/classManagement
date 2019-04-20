@@ -37,6 +37,8 @@ export class CoursesPage implements OnInit {
     this.apiService.getCourses(this.userId).subscribe((response: any) => {
       if (response.status === 'success') {
         this.courses = response.data;
+      } else {
+        this.courses = [];
       }
     });
   }
@@ -70,14 +72,108 @@ export class CoursesPage implements OnInit {
         }, {
           text: 'Ok',
           handler: (data) => {
-            let course = {
-              instructorId: this.userId,
-              name: data.name,
-              code: data.code,
-              schedule: data.schedule
-            };
-            this.apiService.addCourse(course).subscribe(response => {
+
+            if (data.name.length === 0 || data.code.length === 0) {
+              this.dataService.showFlash('Course name and code is required.', 'error');
+              return false;
+            } else {
+              let course = {
+                instructorId: this.userId,
+                name: data.name,
+                code: data.code,
+                schedule: data.schedule
+              };
+              this.apiService.addCourse(course).subscribe(response => {
+                this.dataService.showFlash();
+                this.getCourses();
+              }, error => {
+                this.dataService.showFlash('Failed to save. Please try again.', 'error');
+              });
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async editCourse(course) {
+    const alert = await this.alertController.create({
+      header: 'Edit Course',
+      message: 'Enter the name of the course, its code, and its schedule.',
+      inputs: [
+        {
+          name: 'name',
+          type: 'text',
+          placeholder: 'Basic Algebra',
+          value: course.Course.name
+        },
+        {
+          name: 'code',
+          type: 'text',
+          placeholder: 'METH-101',
+          value: course.Course.code
+        },
+        {
+          name: 'schedule',
+          type: 'text',
+          placeholder: 'MH 11:00 - 13:00',
+          value: course.Course.schedule
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, {
+          text: 'Update',
+          handler: (data) => {
+            if (data.name.length === 0 || data.code.length === 0) {
+              this.dataService.showFlash('Course name and code is required.', 'error');
+              return false;
+            } else {
+              let newCourse = {
+                id: course.Course.id,
+                instructorId: this.userId,
+                name: data.name,
+                code: data.code,
+                schedule: data.schedule
+              };
+              this.apiService.editCourse(newCourse).subscribe(response => {
+                this.dataService.showFlash();
+                this.getCourses();
+              }, error => {
+                this.dataService.showFlash('Failed to save. Please try again.', 'error');
+              });
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async deleteCourse(courseId) {
+    const alert = await this.alertController.create({
+      header: 'Delete Course',
+      message: "Are you sure you want to delete this course?\n" + 
+      "Note: This will also delete the students and other records associated.",
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+        }, {
+          text: 'Confirm',
+          handler: () => {
+            this.apiService.deleteCourse(courseId).subscribe(response => {
+              this.dataService.showFlash('Successfuly deleted.');
               this.getCourses();
+            }, error => {
+              this.dataService.showFlash('Failed to delete. Please try again.', 'error');
             });
           }
         }

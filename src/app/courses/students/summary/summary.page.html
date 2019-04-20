@@ -1,0 +1,31 @@
+<ion-content>
+  <ion-card-header>
+    <ion-card-title>{{selectedCourse.name}}</ion-card-title>
+    <ion-card-subtitle>{{selectedCourse.code}} / {{selectedCourse.schedule}}</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{selectedStudent.Student.name}}</ion-card-title>
+      <ion-card-subtitle>Present: {{summary.present_count}} | Absent: {{summary.absent_count}}</ion-card-subtitle>
+    </ion-card-header>
+  </ion-card>
+  <ion-list *ngIf="summary.Criterion.length !== 0">
+    <ion-item *ngFor="let criterion of summary.Criterion">
+      <ion-label>{{criterion.name}}</ion-label>
+      <ion-note slot="end">{{criterion.grade}}%</ion-note>
+    </ion-item>
+    <ion-item class="final-grade">
+      <ion-label>Final Grade</ion-label>
+      <ion-note slot="end">{{summary.final_grade}}%</ion-note>
+    </ion-item>
+  </ion-list>
+  <ion-card *ngIf="summary.Criterion.length === 0">
+    <ion-item>
+      <ion-card-header>
+        <ion-card-title>Cannot compute final grade yet</ion-card-title>
+        <ion-card-subtitle>Please add grading criteria and activities first</ion-card-subtitle>
+      </ion-card-header>
+    </ion-item>
+  </ion-card>
+  <ion-button expand="block" (click)="goBack()" color="light">Go back</ion-button>
+</ion-content>

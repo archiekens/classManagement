@@ -41,22 +41,22 @@
   <ion-router-outlet main></ion-router-outlet>
 
   <ion-tab-bar slot="bottom" *ngIf="showFooter">
-    <ion-tab-button routerLink="/courses/{{selectedCourse.id}}/attendances">
+    <ion-tab-button routerLink="/courses/{{selectedCourse.id}}/attendances" id="{{activeTab.attendances}}">
       <ion-icon name="calendar"></ion-icon>
       <ion-label>Attendance</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button routerLink="/courses/{{selectedCourse.id}}/students">
+    <ion-tab-button routerLink="/courses/{{selectedCourse.id}}/students" id="{{activeTab.students}}">
       <ion-icon name="person"></ion-icon>
       <ion-label>Students</ion-label>
     </ion-tab-button>
     
-    <ion-tab-button routerLink="/courses/{{selectedCourse.id}}/activities">
+    <ion-tab-button routerLink="/courses/{{selectedCourse.id}}/activities" id="{{activeTab.activities}}">
       <ion-icon name="clipboard"></ion-icon>
       <ion-label>Activities</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button routerLink="/courses/{{selectedCourse.id}}/grading">
+    <ion-tab-button routerLink="/courses/{{selectedCourse.id}}/grading" id="{{activeTab.grading}}">
       <ion-icon name="calculator"></ion-icon>
       <ion-label>Grading</ion-label>
     </ion-tab-button>

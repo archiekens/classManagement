@@ -1,32 +1,28 @@
 <ion-content>
+  <ion-card-header>
+    <ion-card-title>{{selectedCourse.name}}</ion-card-title>
+    <ion-card-subtitle>{{selectedCourse.code}} / {{selectedCourse.schedule}}</ion-card-subtitle>
+  </ion-card-header>
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Activity Name</ion-card-title>
-      <ion-card-subtitle>Criteria</ion-card-subtitle>
-      <ion-card-subtitle>Date Created</ion-card-subtitle>
+      <ion-card-title>{{selectedActivity.Activity.name}}</ion-card-title>
+      <ion-card-subtitle>{{selectedActivity.Criterion.name}}</ion-card-subtitle>
+      <ion-card-subtitle>{{selectedActivity.Activity.created | date: 'fullDate'}}</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
-  <ion-list>
-    <ion-item>
-      <ion-label>Student A</ion-label>
-      <ion-input slot="end" type="number" placeholder="%" value="89"></ion-input>
+  <ion-list *ngIf="activityResults.length !== 0">
+    <ion-item *ngFor="let result of activityResults">
+      <ion-label>{{result.ActivityResult.student_name}}</ion-label>
+      <ion-input slot="end" type="number" placeholder="%" max="100" [(ngModel)]="result.ActivityResult.score"></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label>Student B</ion-label>
-      <ion-input slot="end" type="number" placeholder="%" value="95"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Student C</ion-label>
-      <ion-input slot="end" type="number" placeholder="%" value=""></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Student D</ion-label>
-      <ion-input slot="end" type="number" placeholder="%" value="60"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label>Student E</ion-label>
-      <ion-input slot="end" type="number" placeholder="%" value=""></ion-input>
-    </ion-item>
-    <ion-button expand="block">Save</ion-button>
   </ion-list>
+  <ion-card *ngIf="activityResults.length === 0">
+    <ion-item>
+      <ion-card-header>
+        <ion-card-title>No Students Yet</ion-card-title>
+        <ion-card-subtitle>Go to the students tab to add a student</ion-card-subtitle>
+      </ion-card-header>
+    </ion-item>
+  </ion-card>
+  <ion-button expand="block" (click)="saveActivityResults()" *ngIf="activityResults.length !== 0">Save</ion-button>
 </ion-content>

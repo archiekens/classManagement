@@ -57,14 +57,26 @@ export class GradingPage implements OnInit {
         }, {
           text: 'Ok',
           handler: (data) => {
-            let criterion = {
-              name: data.name,
-              percentage: data.percentage,
-              courseId: this.selectedCourse.id
-            };
-            this.apiService.addCriteria(criterion).subscribe(response => {
-              this.getCriteria();
-            });
+            if (data.name.length === 0 || data.percentage.length === 0) {
+              this.dataService.showFlash('Criteria name and percentage is required.', 'error');
+              return false;
+            }
+            else if (this.checkIfExceed(data.percentage)) {
+              this.dataService.showFlash('Total percentage exceeds 100%', 'error');
+              return false;
+            } else {
+              let criterion = {
+                name: data.name,
+                percentage: data.percentage,
+                courseId: this.selectedCourse.id
+              };
+              this.apiService.addCriteria(criterion).subscribe(response => {
+                this.dataService.showFlash();
+                this.getCriteria();
+              }, error => {
+                this.dataService.showFlash('Failed to save. Please try again.', 'error');
+              });
+            }
           }
         }
       ]
@@ -99,15 +111,27 @@ export class GradingPage implements OnInit {
         }, {
           text: 'Update',
           handler: (data) => {
-            let newCriterion = {
-              id: criterion.Criterion.id,
-              name: data.name,
-              percentage: data.percentage,
-              courseId: this.selectedCourse.id
-            };
-            this.apiService.editCriteria(newCriterion).subscribe(response => {
-              this.getCriteria();
-            });
+             if (data.name.length === 0 || data.percentage.length === 0) {
+              this.dataService.showFlash('Criteria name and percentage is required.', 'error');
+              return false;
+            }
+            else if (this.checkIfExceed(data.percentage, true, criterion.Criterion.id)) {
+              this.dataService.showFlash('Total percentage exceeds 100%', 'error');
+              return false;
+            } else {
+              let newCriterion = {
+                id: criterion.Criterion.id,
+                name: data.name,
+                percentage: data.percentage,
+                courseId: this.selectedCourse.id
+              };
+              this.apiService.editCriteria(newCriterion).subscribe(response => {
+                this.dataService.showFlash();
+                this.getCriteria();
+              }, error => {
+                this.dataService.showFlash('Failed to save. Please try again.', 'error');
+              });
+            }
           }
         }
       ]
@@ -130,7 +154,10 @@ export class GradingPage implements OnInit {
           text: 'Confirm',
           handler: () => {
             this.apiService.deleteCriteria(criterionId).subscribe(response => {
+              this.dataService.showFlash('Successfully deleted.');
               this.getCriteria();
+            }, error => {
+              this.dataService.showFlash('Failed to delete. Please try again.', 'error');
             });
           }
         }
@@ -138,6 +165,23 @@ export class GradingPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  checkIfExceed(percentage, edit = false, id = null) {
+    let totalPercentage = 0;
+
+    for(let criterion of this.criteria) {
+      if (!edit || criterion.Criterion.id !== id) {
+        totalPercentage += parseInt(criterion.Criterion.percentage);
+      }
+      
+    }
+
+    if ((totalPercentage + parseInt(percentage)) > 100) {
+      return true
+    }
+
+    return false;
   }
 
 }
