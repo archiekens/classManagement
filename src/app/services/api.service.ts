@@ -8,7 +8,8 @@ export class ApiService {
 
   headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 
-  server = 'http://192.168.1.104:2022';
+  // server = 'http://192.168.1.104:2022';
+  server = 'http://self-raising-distre.000webhostapp.com/class_management/';
 
   constructor(private http: HttpClient) { }
 
@@ -80,6 +81,8 @@ export class ApiService {
       .set('name', course.name)
       .set('code', course.code)
       .set('schedule', course.schedule)
+      .set('year', course.year)
+      .set('section', course.section)
     return this.http.post(this.server + '/courses/add',
       body,
       {
@@ -95,6 +98,8 @@ export class ApiService {
       .set('name', course.name)
       .set('code', course.code)
       .set('schedule', course.schedule)
+      .set('year', course.year)
+      .set('section', course.section)
     return this.http.put(this.server + '/courses/edit/' + course.id,
       body,
       {

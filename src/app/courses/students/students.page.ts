@@ -41,7 +41,7 @@ export class StudentsPage implements OnInit {
         {
           name: 'name',
           type: 'text',
-          placeholder: 'Dante Gulapa'
+          placeholder: 'Student Name'
         },
 	    ],
       buttons: [

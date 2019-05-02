@@ -63,6 +63,16 @@ export class CoursesPage implements OnInit {
           type: 'text',
           placeholder: 'MH 11:00 - 13:00'
         },
+        {
+          name: 'year',
+          type: 'number',
+          placeholder: 'Year Level'
+        },
+        {
+          name: 'section',
+          type: 'text',
+          placeholder: 'Section'
+        },
 	    ],
       buttons: [
         {
@@ -81,7 +91,9 @@ export class CoursesPage implements OnInit {
                 instructorId: this.userId,
                 name: data.name,
                 code: data.code,
-                schedule: data.schedule
+                schedule: data.schedule,
+                year: data.year,
+                section: data.section
               };
               this.apiService.addCourse(course).subscribe(response => {
                 this.dataService.showFlash();
@@ -121,6 +133,18 @@ export class CoursesPage implements OnInit {
           placeholder: 'MH 11:00 - 13:00',
           value: course.Course.schedule
         },
+        {
+          name: 'year',
+          type: 'number',
+          placeholder: 'Year Level',
+          value: course.Course.year
+        },
+        {
+          name: 'section',
+          type: 'text',
+          placeholder: 'Section',
+          value: course.Course.section
+        },
       ],
       buttons: [
         {
@@ -139,7 +163,9 @@ export class CoursesPage implements OnInit {
                 instructorId: this.userId,
                 name: data.name,
                 code: data.code,
-                schedule: data.schedule
+                schedule: data.schedule,
+                year: data.year,
+                section: data.section
               };
               this.apiService.editCourse(newCourse).subscribe(response => {
                 this.dataService.showFlash();
