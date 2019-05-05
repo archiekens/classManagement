@@ -8,7 +8,7 @@ export class ApiService {
 
   headers = new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
 
-  // server = 'http://192.168.1.104:2022';
+  // public server = 'http://192.168.1.104:2022';
   server = 'http://self-raising-distre.000webhostapp.com/class_management/';
 
   constructor(private http: HttpClient) { }
@@ -118,8 +118,18 @@ export class ApiService {
     );
   }
 
+  downloadCourse(courseId) {
+    return this.http.get(this.server + '/courses/download_csv/' + courseId,
+      {
+        headers: this.headers,
+        responseType: 'json'
+      }
+    );
+  }
+
   addStudent(student) {
     let body = new HttpParams()
+      .set('number', student.number)
       .set('name', student.name)
       .set('course_id', student.courseId)
     return this.http.post(this.server + '/students/add',
@@ -133,7 +143,9 @@ export class ApiService {
 
   editStudent(student) {
     let body = new HttpParams()
+      .set('number', student.number)
       .set('name', student.name)
+      .set('course_id', student.courseId)
     return this.http.put(this.server + '/students/edit/' + student.id,
       body,
       {

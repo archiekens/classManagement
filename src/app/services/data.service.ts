@@ -37,11 +37,11 @@ export class DataService {
     };
   }
 
-  async showFlash(message = 'Successfuly saved.', type = '') {
+  async showFlash(message = 'Successfuly saved.', type = '', duration = 2000) {
     const toast = await this.toastController.create({
       message: message,
       position: 'middle',
-      duration: 2000,
+      duration: duration,
       color: type == 'error' ? 'danger' : ''
     });
     toast.present();

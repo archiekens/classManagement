@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { DataService } from '../../services/data.service';
 import { ApiService } from '../../services/api.service';
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 
 @Component({
   selector: 'app-students',
@@ -16,7 +18,9 @@ export class StudentsPage implements OnInit {
   constructor(
     public alertController: AlertController,
     private dataService: DataService,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private fileChooser: FileChooser,
+    private transfer: FileTransfer
   ) {
     this.selectedCourse = dataService.selectedCourse;
     this.getStudents();
@@ -36,8 +40,13 @@ export class StudentsPage implements OnInit {
   async addStudent() {
     const alert = await this.alertController.create({
       header: 'Add Student',
-      message: 'Enter the name of the student',
+      message: 'Enter the student number and name of the student',
       inputs: [
+        {
+          name: 'number',
+          type: 'text',
+          placeholder: 'Student Number'
+        },
         {
           name: 'name',
           type: 'text',
@@ -52,17 +61,23 @@ export class StudentsPage implements OnInit {
         }, {
           text: 'Ok',
           handler: (data) => {
-            if (data.name.length === 0) {
-              this.dataService.showFlash('Student name is required', 'error')
+            if (data.name.length === 0 || data.number.length === 0) {
+              this.dataService.showFlash('Student number and name are required', 'error')
               return false;
             } else {
               let student = {
+                number: data.number,
                 name: data.name,
                 courseId: this.selectedCourse.id
               };
-              this.apiService.addStudent(student).subscribe(response => {
-                this.dataService.showFlash();
-                this.getStudents();
+              this.apiService.addStudent(student).subscribe((response: any) => {
+                if (response.status === 'success') {
+                  this.dataService.showFlash();
+                  this.getStudents();
+                } else {
+                  this.dataService.showFlash(response.message, 'error');
+                  return false;
+                }
               }, error => {
                 this.dataService.showFlash('Failed to save. Please try again.', 'error');
               });
@@ -78,12 +93,18 @@ export class StudentsPage implements OnInit {
   async editStudent(student) {
     const alert = await this.alertController.create({
       header: 'Edit Student',
-      message: 'Enter the name of the student',
+      message: 'Enter the number and name of the student',
       inputs: [
+        {
+          name: 'number',
+          type: 'text',
+          placeholder: 'Student Number',
+          value: student.Student.number
+        },
         {
           name: 'name',
           type: 'text',
-          placeholder: 'Dante Gulapa',
+          placeholder: 'Student Name',
           value: student.Student.name
         },
       ],
@@ -95,17 +116,24 @@ export class StudentsPage implements OnInit {
         }, {
           text: 'Update',
           handler: (data) => {
-            if (data.name.length === 0) {
-              this.dataService.showFlash('Student name is required', 'error')
+            if (data.name.length === 0 || data.number.length === 0) {
+              this.dataService.showFlash('Student number and name are required', 'error')
               return false;
             } else {
               let newStudent = {
                 id: student.Student.id,
+                number: data.number,
                 name: data.name,
+                courseId: this.selectedCourse.id
               };
-              this.apiService.editStudent(newStudent).subscribe(response => {
-                this.dataService.showFlash();
-                this.getStudents();
+              this.apiService.editStudent(newStudent).subscribe((response: any) => {
+                if (response.status === 'success') {
+                  this.dataService.showFlash();
+                  this.getStudents();
+                } else {
+                  this.dataService.showFlash(response.message, 'error');
+                  return false;
+                }
               }, error => {
                 this.dataService.showFlash('Failed to save. Please try again.', 'error');
               });
@@ -146,6 +174,33 @@ export class StudentsPage implements OnInit {
 
   selectStudent(student) {
     this.dataService.selectedStudent = student;
+  }
+
+  uploadCsv() {
+    this.fileChooser.open()
+    .then(uri => {
+      const fileTransfer: FileTransferObject = this.transfer.create();
+      const uploadOpts: FileUploadOptions = {
+         fileKey: 'file',
+         fileName: 'students.csv'
+      };
+
+      fileTransfer.upload(uri, this.apiService.server + '/students/upload_csv/' + this.selectedCourse.id, uploadOpts)
+        .then((data: any) => {
+          let response = JSON.parse(data.response);
+          if (response.status === 'success') {
+            this.dataService.showFlash('CSV uploaded successfully');
+            this.getStudents();
+          } else {
+            this.dataService.showFlash(response.message, 'error', 5000);
+          }
+        }, (err) => {
+          this.dataService.showFlash('Failed to upload CSV. Please try again.', 'error');
+        });
+    })
+    .catch(e => {
+      this.dataService.showFlash('Unable to open file.', 'error')
+    });
   }
 
 }

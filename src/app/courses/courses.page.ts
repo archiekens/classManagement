@@ -18,7 +18,7 @@ export class CoursesPage implements OnInit {
     public alertController: AlertController,
     private storage: Storage,
     private apiService: ApiService,
-    private dataService: DataService
+    private dataService: DataService,
   ) {
     this.storage.get('user').then(response => {
       this.userId = response.id;
@@ -207,6 +207,20 @@ export class CoursesPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  downloadCourse(courseId) {
+    this.apiService.downloadCourse(courseId).subscribe((response: any) => {
+      if (response.status == 'success') {
+        window.open(this.apiService.server + '/files/' + response.message, '_self')
+      } else {
+        this.dataService.showFlash('Could not download CSV. Please try again.', 'error');
+      }
+    }, error => {
+      this.dataService.showFlash('Could not download CSV. Please try again.', 'error');
+    });
+    
+
   }
 
 }

@@ -15,6 +15,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { AddActivityPageModule } from './modals/add-activity/add-activity.module';
 import { DatePipe } from '@angular/common';
 
+import { FileChooser } from '@ionic-native/file-chooser/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+
+
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -30,7 +35,9 @@ import { DatePipe } from '@angular/common';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    DatePipe
+    DatePipe,
+    FileChooser,
+    FileTransfer
   ],
   bootstrap: [AppComponent]
 })

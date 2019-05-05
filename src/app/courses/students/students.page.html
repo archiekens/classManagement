@@ -5,7 +5,7 @@
   </ion-card-header>
   <ion-list *ngIf="students.length !== 0">
     <ion-item *ngFor="let student of students">
-      <ion-label>{{student.Student.name}}</ion-label>
+      <ion-label>{{student.Student.name}}<br><ion-note>{{student.Student.number}}</ion-note></ion-label>
       <ion-button fill="clear" (click)="selectStudent(student)" routerLink="/courses/{{selectedCourse.id}}/students/{{student.Student.id}}/summary"><ion-icon slot="icon-only" name="clipboard"></ion-icon></ion-button>
       
       <ion-button fill="clear" (click)="editStudent(student)"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button>
@@ -21,8 +21,14 @@
     </ion-item>
   </ion-card>
   <ion-fab vertical="top" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="addStudent()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
+    <ion-fab-button><ion-icon name="add"></ion-icon></ion-fab-button>
+    <ion-fab-list side="bottom">
+      <ion-fab-button (click)="addStudent()">
+        <ion-icon name="person-add"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="uploadCsv()">
+        <ion-icon name="document"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
   </ion-fab>
 </ion-content>

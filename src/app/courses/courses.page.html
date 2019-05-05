@@ -8,6 +8,7 @@
       </ion-card-header>
     </ion-item>
     <ion-item lines="none">
+      <ion-button slot="end" fill="clear" (click)="downloadCourse(course.Course.id)"><ion-icon slot="icon-only" name="download"></ion-icon></ion-button>
       <ion-button slot="end" fill="clear" (click)="editCourse(course)"><ion-icon slot="icon-only" name="create"></ion-icon></ion-button>
       <ion-button slot="end" fill="clear" (click)="deleteCourse(course.Course.id)"><ion-icon slot="icon-only" name="close"></ion-icon></ion-button>
     </ion-item>
