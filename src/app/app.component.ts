@@ -67,7 +67,7 @@ export class AppComponent {
               this.showMenu = false;
               break;
             case "/dashboard":
-              this.headerText = 'Dashboard';
+              this.headerText = 'Home';
               break;
             case "/courses":
               this.headerText = 'My Courses';
